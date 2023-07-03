@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/services/global.dart';
-import 'package:impact_driver/services/routes.dart';
+import 'services/global.dart';
+import 'services/routes.dart';
 
 void main() {
   runApp(const MyApp());

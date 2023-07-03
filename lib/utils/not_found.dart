@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../services/global.dart';
 
 class NotFound extends StatelessWidget {

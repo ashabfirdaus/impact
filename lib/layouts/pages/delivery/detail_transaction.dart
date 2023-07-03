@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 import '../../../services/action.dart';
 import '../../../services/global.dart';
 import '../../../utils/button_full_width.dart';

@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:impact_driver/layouts/pages/delivery/preview_image.dart';
-
+import 'package:impact_driver/layouts/pages/delivery.dart';
+import '../layouts/pages/finished_material_stock.dart';
 import '../layouts/pages/auth/login.dart';
-import '../layouts/pages/delivery/accept_delivery.dart';
-import '../layouts/pages/delivery/detail_transaction.dart';
+import '../layouts/pages/presence.dart';
+import '../layouts/pages/purchase.dart';
+import '../layouts/pages/row_material_stock.dart';
+import '../layouts/pages/sales.dart';
 import '../layouts/pages/tabs.dart';
 import '../layouts/splashscreen.dart';
 
@@ -12,11 +13,17 @@ class AppRoutes {
     '/': (context) => const Splashscreen(),
     '/login': (context) => const Login(),
     '/tabs': (context) => const Tabs(),
-    '/detail-transaction': (context) => DetailTransaction(
-        content: ModalRoute.of(context)?.settings.arguments as Map),
-    '/accept-delivery': (context) => AcceptDelivery(
-        content: ModalRoute.of(context)?.settings.arguments as Map),
-    '/preview-image': (context) =>
-        PreviewImage(content: ModalRoute.of(context)?.settings.arguments as Map)
+    '/row-material-stock': (context) => const RowMaterialStock(),
+    '/finished-material-stock': (context) => const FinishedMaterialStock(),
+    '/presence': (context) => const Presence(),
+    '/delivery': (context) => const Delivery(),
+    '/sales': (context) => const Sales(),
+    '/purchase': (context) => const Purchase(),
+    // '/detail-transaction': (context) => DetailTransaction(
+    //     content: ModalRoute.of(context)?.settings.arguments as Map),
+    // '/accept-delivery': (context) => AcceptDelivery(
+    //     content: ModalRoute.of(context)?.settings.arguments as Map),
+    // '/preview-image': (context) =>
+    //     PreviewImage(content: ModalRoute.of(context)?.settings.arguments as Map)
   };
 }

@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
+import 'package:impact_driver/components/table-custom.dart';
+import '../../../components/button_home.dart';
 import '../../../services/action.dart';
-import '../../../services/global.dart';
-import '../../../utils/button_full_width.dart';
-import '../../../utils/list_transaction.dart';
-import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
 class Home extends StatefulWidget {
@@ -18,91 +15,40 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List listData = [];
-  final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 7};
-  String statusActive = '0';
-  late Timer t;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    getData();
+    // getData();
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels.toString() ==
-          _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] < loadMore['last_page']) {
-          getData();
-        }
-      }
-    });
-
-    t = Timer(const Duration(milliseconds: 500), () {});
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // Future<void> getData() async {
+  //   EasyLoading.show(status: 'Loading...');
+  //   try {
 
-  Future<void> getData() async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      Map data = await ActionMethod.postNoAuth(
-        'Surat_jalan/data',
-        {
-          "status": "0",
-          "status_kirim": statusActive,
-          "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString()
-        },
-      );
+  //     if (data['statusCode'] == 200) {
+  //       setState(() {
 
-      if (data['statusCode'] == 200) {
-        setState(() {
-          if (loadMore['current_page'] == 1) {
-            listData = data['values'];
-          } else {
-            listData.addAll(data['values']);
-          }
+  //       });
+  //     } else {
+  //       setState(() {
+  //         listData = [];
+  //       });
+  //       NotificationBar.toastr(data['message'], 'error');
+  //     }
+  //   } catch (e) {
+  //     NotificationBar.toastr('Internal Server Error', 'error');
+  //   }
 
-          loadMore = {
-            'current_page': loadMore['current_page'] + 1,
-            'last_page': data['max_page'],
-            'limit': 7
-          };
-        });
-      } else {
-        setState(() {
-          listData = [];
-        });
-        NotificationBar.toastr(data['message'], 'error');
-      }
-    } catch (e) {
-      NotificationBar.toastr('Internal Server Error', 'error');
-    }
-
-    EasyLoading.dismiss();
-  }
+  //   EasyLoading.dismiss();
+  // }
 
   Future<void> refreshGetData() async {
-    setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
-    });
-
-    await getData();
+    // await getData();
     return;
-  }
-
-  void changePageActive(string) {
-    GlobalConfig.unfocus(context);
-    setState(() {
-      statusActive = string;
-    });
-    refreshGetData();
   }
 
   void detailTransaction(object, index) {
@@ -133,59 +79,60 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: refreshGetData,
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 15),
-                decoration: BoxDecoration(
-                  color: GlobalConfig.primaryColor,
+          child: Column(children: [
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: const TableCustom(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Bahan Baku',
+                  action: () =>
+                      Navigator.pushNamed(context, '/row-material-stock'),
+                  width: 100,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: ButtonFullWidth(
-                        label: 'Proses Kirim',
-                        color: Colors.white,
-                        action: () => changePageActive('0'),
-                        background: statusActive == '0' ? false : true,
-                      ),
-                    ),
-                    Expanded(
-                      child: ButtonFullWidth(
-                        label: 'Selesai',
-                        color: Colors.white,
-                        action: () => changePageActive('1'),
-                        background: statusActive == '1' ? false : true,
-                      ),
-                    ),
-                  ],
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Produk Jadi',
+                  action: () =>
+                      Navigator.pushNamed(context, '/finished-material-stock'),
+                  width: 100,
                 ),
-              ),
-              if (listData.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    controller: _scrollController,
-                    itemCount: listData.isEmpty ? 0 : listData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTransaction(
-                        content: listData[index],
-                        action: () => detailTransaction(listData[index], index),
-                      );
-                    },
-                  ),
-                )
-              else
-                const Expanded(
-                  child: NotFound(
-                    label: 'Belum ada transaksi',
-                    size: 'normal',
-                    isButton: false,
-                  ),
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Pembelian',
+                  action: () => Navigator.pushNamed(context, '/purchase'),
+                  width: 100,
                 ),
-            ],
-          ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Penjualan',
+                  action: () => Navigator.pushNamed(context, '/sales'),
+                  width: 100,
+                ),
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Presensi',
+                  action: () => Navigator.pushNamed(context, '/presence'),
+                  width: 100,
+                ),
+                ButtonHome(
+                  icon: Image.asset('images/logo.png', width: 70.0),
+                  label: 'Pengiriman',
+                  action: () => Navigator.pushNamed(context, '/delivery'),
+                  width: 100,
+                ),
+              ],
+            )
+          ]),
         ),
       ),
     );
