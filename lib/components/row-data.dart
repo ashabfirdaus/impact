@@ -33,9 +33,22 @@ class RowData extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    subtitle!,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ]
+              ],
             ),
           ),
           SizedBox(

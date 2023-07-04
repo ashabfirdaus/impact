@@ -1,9 +1,9 @@
 import 'package:impact_driver/layouts/pages/delivery.dart';
-import '../layouts/pages/finished_material_stock.dart';
+import '../layouts/pages/finished_material/index.dart';
 import '../layouts/pages/auth/login.dart';
 import '../layouts/pages/presence.dart';
 import '../layouts/pages/purchase.dart';
-import '../layouts/pages/row_material_stock.dart';
+import '../layouts/pages/row_material/index.dart';
 import '../layouts/pages/sales.dart';
 import '../layouts/pages/tabs.dart';
 import '../layouts/splashscreen.dart';
@@ -13,8 +13,8 @@ class AppRoutes {
     '/': (context) => const Splashscreen(),
     '/login': (context) => const Login(),
     '/tabs': (context) => const Tabs(),
-    '/row-material-stock': (context) => const RowMaterialStock(),
-    '/finished-material-stock': (context) => const FinishedMaterialStock(),
+    '/row-material-stock': (context) => const RowMaterial(),
+    '/finished-material-stock': (context) => const FinishedMaterial(),
     '/presence': (context) => const Presence(),
     '/delivery': (context) => const Delivery(),
     '/sales': (context) => const Sales(),

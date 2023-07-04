@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/row-data.dart';
 
-import '../../services/action.dart';
-import '../../services/global.dart';
-import '../../utils/not_found.dart';
-import '../../utils/notification_bar.dart';
+import '../../../components/row-data.dart';
+import '../../../services/action.dart';
+import '../../../services/global.dart';
+import '../../../utils/not_found.dart';
+import '../../../utils/notification_bar.dart';
 
-class Delivery extends StatefulWidget {
-  const Delivery({super.key});
+class FinishedMaterialStockLimit extends StatefulWidget {
+  const FinishedMaterialStockLimit({super.key});
 
   @override
-  State<Delivery> createState() => _DeliveryState();
+  State<FinishedMaterialStockLimit> createState() =>
+      _FinishedMaterialStockLimitState();
 }
 
-class _DeliveryState extends State<Delivery> {
+class _FinishedMaterialStockLimitState
+    extends State<FinishedMaterialStockLimit> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
   Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
@@ -44,7 +46,7 @@ class _DeliveryState extends State<Delivery> {
     EasyLoading.show(status: 'Loading...');
     try {
       Map data = await ActionMethod.getNoAuth(
-        'Surat_jalan/all',
+        'Produk/stok_kurang',
         {
           "num_page": loadMore["limit"].toString(),
           "page": loadMore["current_page"].toString()
@@ -80,7 +82,7 @@ class _DeliveryState extends State<Delivery> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
+      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 12};
     });
 
     await getData();
@@ -90,10 +92,6 @@ class _DeliveryState extends State<Delivery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pengiriman'),
-        backgroundColor: GlobalConfig.primaryColor,
-      ),
       body: GestureDetector(
         onTap: () => GlobalConfig.unfocus(context),
         child: Scaffold(
@@ -111,18 +109,16 @@ class _DeliveryState extends State<Delivery> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['surat_jalan']['kode'],
-                              subtitle: data['customer']['nama'] +
-                                  ' - ' +
-                                  data['customer']['alamat'],
-                              value: data['surat_jalan']['status']);
+                              title: data['nama'],
+                              subtitle: data['kode'],
+                              value: data['qty']);
                         },
                       ),
                     )
                   else
                     const Expanded(
                       child: NotFound(
-                        label: 'Belum ada transaksi',
+                        label: 'Data tidak ditemukan',
                         size: 'normal',
                         isButton: false,
                       ),
