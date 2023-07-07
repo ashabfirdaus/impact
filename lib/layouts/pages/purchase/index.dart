@@ -7,14 +7,14 @@ import '../../../services/global.dart';
 import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
-class AllRowMaterial extends StatefulWidget {
-  const AllRowMaterial({super.key});
+class Purchase extends StatefulWidget {
+  const Purchase({super.key});
 
   @override
-  State<AllRowMaterial> createState() => _AllRowMaterialState();
+  State<Purchase> createState() => _PurchaseState();
 }
 
-class _AllRowMaterialState extends State<AllRowMaterial> {
+class _PurchaseState extends State<Purchase> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
   Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
@@ -44,7 +44,7 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
     EasyLoading.show(status: 'Loading...');
     try {
       Map data = await ActionMethod.getNoAuth(
-        'Bahan/all',
+        'Purchase_order/all',
         {
           "num_page": loadMore["limit"].toString(),
           "page": loadMore["current_page"].toString()
@@ -80,16 +80,25 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 12};
+      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
     });
 
     await getData();
     return;
   }
 
+  void detailPurchase(id, code) {
+    Navigator.pushNamed(context, '/purchase_detail',
+        arguments: {'id': id, 'code': code});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pembelian'),
+        backgroundColor: GlobalConfig.primaryColor,
+      ),
       body: GestureDetector(
         onTap: () => GlobalConfig.unfocus(context),
         child: Scaffold(
@@ -108,16 +117,22 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['nama'],
-                              subtitle: data['kode'],
-                              value: data['qty']);
+                            title: data['purchase_order']['kode'],
+                            subtitle: data['suplier']['nama'] +
+                                ' - ' +
+                                data['suplier']['alamat'],
+                            value: data['purchase_order']['tanggal'].toString(),
+                            action: () => detailPurchase(
+                                data['purchase_order']['id'],
+                                data['purchase_order']['kode']),
+                          );
                         },
                       ),
                     )
                   else
                     const Expanded(
                       child: NotFound(
-                        label: 'Data tidak ditemukan',
+                        label: 'Belum ada transaksi',
                         size: 'normal',
                         isButton: false,
                       ),

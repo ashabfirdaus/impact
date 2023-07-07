@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:impact_driver/components/row-data.dart';
 
-import '../../services/action.dart';
-import '../../services/global.dart';
-import '../../utils/not_found.dart';
-import '../../utils/notification_bar.dart';
+import '../../../services/action.dart';
+import '../../../services/global.dart';
+import '../../../utils/not_found.dart';
+import '../../../utils/notification_bar.dart';
 
 class Delivery extends StatefulWidget {
   const Delivery({super.key});
@@ -102,6 +102,7 @@ class _DeliveryState extends State<Delivery> {
               onRefresh: refreshGetData,
               child: Column(
                 children: [
+                  const SizedBox(height: 10),
                   if (listData.isNotEmpty)
                     Expanded(
                       child: ListView.builder(
@@ -127,6 +128,7 @@ class _DeliveryState extends State<Delivery> {
                         isButton: false,
                       ),
                     ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -100,6 +100,7 @@ class _FinishedMaterialStockLimitState
               onRefresh: refreshGetData,
               child: Column(
                 children: [
+                  const SizedBox(height: 10),
                   if (listData.isNotEmpty)
                     Expanded(
                       child: ListView.builder(
@@ -123,6 +124,7 @@ class _FinishedMaterialStockLimitState
                         isButton: false,
                       ),
                     ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

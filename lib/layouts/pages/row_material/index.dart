@@ -20,20 +20,19 @@ class _RowMaterialState extends State<RowMaterial> {
         appBar: AppBar(
           title: const Text('Bahan Baku'),
           bottom: const TabBar(
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
             tabs: [
               Tab(
                 child: Text(
                   'Semua Bahan Baku',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
+                  style: TextStyle(fontSize: 15),
                 ),
               ),
               Tab(
                 child: Text(
                   'Limit Stok',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
+                  style: TextStyle(fontSize: 15),
                 ),
               ),
             ],

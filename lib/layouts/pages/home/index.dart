@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/table-custom.dart';
+import 'package:impact_driver/components/table-detail.dart';
 import 'package:impact_driver/layouts/pages/home/chart_data.dart';
+import 'package:impact_driver/services/global.dart';
 import '../../../components/button_home.dart';
 import '../../../services/action.dart';
 import '../../../utils/notification_bar.dart';
@@ -81,9 +82,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         child: RefreshIndicator(
           onRefresh: refreshGetData,
           child: Column(children: [
+            Image.asset(
+              'images/logo.png',
+              width: 150,
+            ),
             Container(
-                margin: const EdgeInsets.all(10),
-                child: const LineChartSample1()),
+              margin: const EdgeInsets.all(10),
+              child: const LineChartSample1(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

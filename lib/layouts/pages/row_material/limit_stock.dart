@@ -98,6 +98,7 @@ class _RowMaterialStockLimitState extends State<RowMaterialStockLimit> {
               onRefresh: refreshGetData,
               child: Column(
                 children: [
+                  const SizedBox(height: 10),
                   if (listData.isNotEmpty)
                     Expanded(
                       child: ListView.builder(
@@ -121,6 +122,7 @@ class _RowMaterialStockLimitState extends State<RowMaterialStockLimit> {
                         isButton: false,
                       ),
                     ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:impact_driver/services/global.dart';
 
 import '../../../components/indicator.dart';
 
@@ -91,7 +90,7 @@ class _LineChart extends StatelessWidget {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 13,
     );
     Widget text;
     switch (value.toInt()) {
@@ -208,31 +207,29 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    return const AspectRatio(
       aspectRatio: 1.23,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 37),
           Text(
             'Penjualan per Bulan',
             style: TextStyle(
-              color: GlobalConfig.primaryColor,
-              fontSize: 29,
+              color: Colors.grey,
+              fontSize: 23,
               fontWeight: FontWeight.bold,
-              letterSpacing: 2,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 37),
-          const Expanded(
+          SizedBox(height: 10),
+          Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 16, left: 6),
               child: _LineChart(),
             ),
           ),
-          const SizedBox(height: 10),
-          const Row(
+          SizedBox(height: 10),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Indicator(
