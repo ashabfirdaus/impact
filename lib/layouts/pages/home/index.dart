@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/table-detail.dart';
+import 'package:impact_driver/components/table_detail.dart';
 import 'package:impact_driver/layouts/pages/home/chart_data.dart';
 import 'package:impact_driver/services/global.dart';
 import '../../../components/button_home.dart';
@@ -98,20 +98,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   label: 'Bahan Baku',
                   action: () =>
                       Navigator.pushNamed(context, '/row-material-stock'),
-                  width: 100,
+                  width: 120,
                 ),
                 ButtonHome(
                   icon: Image.asset('images/logo.png', width: 70.0),
                   label: 'Produk Jadi',
                   action: () =>
                       Navigator.pushNamed(context, '/finished-material-stock'),
-                  width: 100,
+                  width: 120,
                 ),
                 ButtonHome(
                   icon: Image.asset('images/logo.png', width: 70.0),
                   label: 'Pembelian',
                   action: () => Navigator.pushNamed(context, '/purchase'),
-                  width: 100,
+                  width: 120,
                 ),
               ],
             ),
@@ -122,19 +122,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   icon: Image.asset('images/logo.png', width: 70.0),
                   label: 'Penjualan',
                   action: () => Navigator.pushNamed(context, '/sales'),
-                  width: 100,
+                  width: 120,
                 ),
                 ButtonHome(
                   icon: Image.asset('images/logo.png', width: 70.0),
                   label: 'Presensi',
                   action: () => Navigator.pushNamed(context, '/presence'),
-                  width: 100,
+                  width: 120,
                 ),
                 ButtonHome(
                   icon: Image.asset('images/logo.png', width: 70.0),
                   label: 'Pengiriman',
                   action: () => Navigator.pushNamed(context, '/delivery'),
-                  width: 100,
+                  width: 120,
                 ),
               ],
             )

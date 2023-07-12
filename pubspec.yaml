@@ -43,6 +43,7 @@ dependencies:
   flutter_exif_rotation: ^0.5.1
   http: ^1.0.0
   fl_chart: ^0.63.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

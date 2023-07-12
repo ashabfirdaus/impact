@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import '../../../components/row-data.dart';
+import '../../../components/row_data.dart';
 import '../../../services/action.dart';
 import '../../../services/global.dart';
 import '../../../utils/not_found.dart';

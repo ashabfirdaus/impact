@@ -38,13 +38,11 @@ class RowDetail extends StatelessWidget {
               color: color ?? Colors.white,
               borderRadius: BorderRadius.circular(7),
             ),
-            child: Expanded(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
             ),
           )

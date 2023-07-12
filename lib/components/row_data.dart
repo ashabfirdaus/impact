@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 
 class RowData extends StatelessWidget {
   final String title;
-  final String value;
+  final String? value;
   final String? subtitle;
   final VoidCallback? action;
+  final Widget? wvalue;
 
   const RowData({
     super.key,
     required this.title,
-    required this.value,
+    this.value,
     this.subtitle,
     this.action,
+    this.wvalue,
   });
 
   @override
@@ -34,37 +36,42 @@ class RowData extends StatelessWidget {
           ],
         ),
         width: MediaQuery.of(context).size.width,
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Row(children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      subtitle!,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ]
-                ],
-              ),
+                ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    subtitle!,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ]
+              ],
             ),
+          ),
+          if (value != null)
             SizedBox(
               child: Text(
-                value,
+                value!,
                 style: const TextStyle(fontSize: 15),
               ),
-            ),
-          ],
-        ),
+            )
+          else if (wvalue != null)
+            SizedBox(
+              child: wvalue!,
+            )
+          else
+            Container()
+        ]),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:impact_driver/services/global.dart';
 
-import '../../../components/row-data.dart';
+import '../../../components/row_data.dart';
 import '../../../services/action.dart';
 import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
@@ -17,7 +17,11 @@ class Sales extends StatefulWidget {
 class _SalesState extends State<Sales> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
+  Map loadMore = {
+    'current_page': 1,
+    'next_page': 0,
+    'limit': 12,
+  };
   final search = TextEditingController();
 
   @override
@@ -27,7 +31,7 @@ class _SalesState extends State<Sales> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] < loadMore['last_page']) {
+        if (loadMore['current_page'] == loadMore['next_page']) {
           getData();
         }
       }
@@ -61,8 +65,8 @@ class _SalesState extends State<Sales> {
 
           loadMore = {
             'current_page': loadMore['current_page'] + 1,
-            'last_page': data['max_page'],
-            'limit': 7
+            'next_page': data['next_page'],
+            'limit': 12
           };
         });
       } else {
@@ -80,18 +84,23 @@ class _SalesState extends State<Sales> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
+      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
     });
 
     await getData();
     return;
   }
 
+  void detailSales(id, code) {
+    Navigator.pushNamed(context, '/sales_detail',
+        arguments: {'id': id, 'code': code});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengiriman'),
+        title: const Text('Penjualan'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: GestureDetector(
@@ -112,11 +121,13 @@ class _SalesState extends State<Sales> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['sales_order']['kode'],
-                              subtitle: data['customer']['nama'] +
-                                  ' - ' +
-                                  data['customer']['alamat'],
-                              value: data['sales_order']['tanggal'].toString());
+                            title: data['sales_order']['kode'],
+                            subtitle:
+                                '${data['customer']['nama']} - ${data['customer']['alamat']}',
+                            value: data['sales_order']['tanggal'].toString(),
+                            action: () => detailSales(data['sales_order']['id'],
+                                data['sales_order']['kode']),
+                          );
                         },
                       ),
                     )

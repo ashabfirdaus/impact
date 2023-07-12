@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/row-detail.dart';
-import 'package:impact_driver/components/table-detail.dart';
+import 'package:impact_driver/components/row_detail.dart';
+import 'package:impact_driver/components/table_detail.dart';
 
 import '../../../services/action.dart';
 import '../../../services/global.dart';
@@ -55,81 +55,87 @@ class _PurchaseDetailState extends State<PurchaseDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaksi'),
+        title: const Text('Transaksi Pembelian'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(
         child: selectData.isNotEmpty
-            ? Container(
-                margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        selectData['purchase_order']['kode'],
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: GlobalConfig.primaryColor,
+            ? SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          selectData['purchase_order']['kode'],
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: GlobalConfig.primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.shade400.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          RowDetail(
-                            label: 'Tanggal',
-                            value: selectData['purchase_order']['tanggal'],
-                            type: 'list',
-                          ),
-                          RowDetail(
-                            label: 'Supplier',
-                            value: selectData['suplier']['nama'],
-                            type: 'list',
-                          ),
-                          RowDetail(
-                            label: 'Alamat',
-                            value: selectData['suplier']['alamat'],
-                            type: 'list',
-                          ),
-                          const Divider(color: Colors.grey),
-                          RowDetail(
-                            label: 'Detail',
-                            color: Colors.amber.shade100,
-                            type: 'header',
-                          ),
-                          const SizedBox(height: 10),
-                          TableCustom(
-                            details: selectData['detail_purchase_order'],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                      const SizedBox(height: 30),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            RowDetail(
+                              label: 'Tanggal',
+                              value: selectData['purchase_order']['tanggal'],
+                              type: 'list',
+                            ),
+                            RowDetail(
+                              label: 'Supplier',
+                              value: selectData['suplier']['nama'],
+                              type: 'list',
+                            ),
+                            RowDetail(
+                              label: 'Alamat',
+                              value: selectData['suplier']['alamat'],
+                              type: 'list',
+                            ),
+                            RowDetail(
+                              label: 'DETAIL BARANG',
+                              color: Colors.amber.shade100,
+                              type: 'header',
+                            ),
+                            const SizedBox(height: 5),
+                            TableCustom(
+                              type: 'purch',
+                              details: selectData['detail_purchase_order'],
+                              subtotal: selectData['purchase_order']
+                                  ['subtotal'],
+                              discount: selectData['purchase_order']
+                                  ['nilai_diskon'],
+                              ppn: selectData['purchase_order']['total_ppn'],
+                              total: selectData['purchase_order']['total'],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               )
-            : const Expanded(
-                child: NotFound(
-                  label: 'Belum ada transaksi',
-                  size: 'normal',
-                  isButton: false,
-                ),
+            : const NotFound(
+                label: 'Belum ada transaksi',
+                size: 'normal',
+                isButton: false,
               ),
       ),
     );

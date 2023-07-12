@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import '../../../components/row-data.dart';
+import '../../../components/row_data.dart';
 import '../../../services/action.dart';
 import '../../../services/global.dart';
 import '../../../utils/not_found.dart';
@@ -17,7 +17,7 @@ class Purchase extends StatefulWidget {
 class _PurchaseState extends State<Purchase> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
+  Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
   final search = TextEditingController();
 
   @override
@@ -27,7 +27,7 @@ class _PurchaseState extends State<Purchase> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] < loadMore['last_page']) {
+        if (loadMore['current_page'] == loadMore['next_page']) {
           getData();
         }
       }
@@ -61,8 +61,8 @@ class _PurchaseState extends State<Purchase> {
 
           loadMore = {
             'current_page': loadMore['current_page'] + 1,
-            'last_page': data['max_page'],
-            'limit': 7
+            'next_page': data['next_page'],
+            'limit': 12
           };
         });
       } else {
@@ -80,7 +80,7 @@ class _PurchaseState extends State<Purchase> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
+      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
     });
 
     await getData();
@@ -118,9 +118,8 @@ class _PurchaseState extends State<Purchase> {
                           final data = listData[index];
                           return RowData(
                             title: data['purchase_order']['kode'],
-                            subtitle: data['suplier']['nama'] +
-                                ' - ' +
-                                data['suplier']['alamat'],
+                            subtitle:
+                                '${data['suplier']['nama']} - ${data['suplier']['alamat']}',
                             value: data['purchase_order']['tanggal'].toString(),
                             action: () => detailPurchase(
                                 data['purchase_order']['id'],

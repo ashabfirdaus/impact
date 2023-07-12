@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/row-data.dart';
+import 'package:impact_driver/components/row_data.dart';
 
 import '../../../services/action.dart';
 import '../../../services/global.dart';
@@ -17,8 +17,12 @@ class Delivery extends StatefulWidget {
 class _DeliveryState extends State<Delivery> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
+  Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
   final search = TextEditingController();
+  Map arrayStatus = {
+    '0': {'label': 'Dikirim', 'color': Colors.blue},
+    '1': {'label': "Selesai", 'color': Colors.green}
+  };
 
   @override
   void initState() {
@@ -27,7 +31,7 @@ class _DeliveryState extends State<Delivery> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] < loadMore['last_page']) {
+        if (loadMore['current_page'] == loadMore['next_page']) {
           getData();
         }
       }
@@ -61,8 +65,8 @@ class _DeliveryState extends State<Delivery> {
 
           loadMore = {
             'current_page': loadMore['current_page'] + 1,
-            'last_page': data['max_page'],
-            'limit': 7
+            'next_page': data['next_page'],
+            'limit': 12
           };
         });
       } else {
@@ -80,7 +84,7 @@ class _DeliveryState extends State<Delivery> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'last_page': 0, 'limit': 7};
+      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
     });
 
     await getData();
@@ -112,11 +116,26 @@ class _DeliveryState extends State<Delivery> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['surat_jalan']['kode'],
-                              subtitle: data['customer']['nama'] +
-                                  ' - ' +
-                                  data['customer']['alamat'],
-                              value: data['surat_jalan']['status']);
+                            title: data['surat_jalan']['kode'],
+                            subtitle:
+                                '${data['customer']['nama']} - ${data['customer']['alamat']}',
+                            wvalue: Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color:
+                                    arrayStatus[data['surat_jalan']['status']]
+                                        ['color'],
+                              ),
+                              child: Text(
+                                arrayStatus[data['surat_jalan']['status']]
+                                    ['label'],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       ),
                     )
