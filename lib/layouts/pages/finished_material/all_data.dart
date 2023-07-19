@@ -108,9 +108,20 @@ class _AllFinishedMaterialState extends State<AllFinishedMaterial> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['nama'],
-                              subtitle: data['kode'],
-                              value: data['qty']);
+                            title: data['nama'],
+                            subtitle: data['kode'],
+                            value: data['qty'],
+                            action: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/finished-material-detail',
+                                arguments: {
+                                  'id': data['id'],
+                                  'nama': data['nama']
+                                },
+                              );
+                            },
+                          );
                         },
                       ),
                     )

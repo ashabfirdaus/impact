@@ -108,9 +108,17 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
                         itemBuilder: (BuildContext context, int index) {
                           final data = listData[index];
                           return RowData(
-                              title: data['nama'],
-                              subtitle: data['kode'],
-                              value: data['qty']);
+                            title: data['nama'],
+                            subtitle: data['kode'],
+                            value: data['qty'],
+                            action: () {
+                              Navigator.pushNamed(
+                                  context, '/row-material-detail', arguments: {
+                                'id': data['id'],
+                                'nama': data['nama']
+                              });
+                            },
+                          );
                         },
                       ),
                     )

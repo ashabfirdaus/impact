@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:impact_driver/layouts/pages/delivery/index.dart';
 import 'package:impact_driver/layouts/pages/purchase/detail.dart';
+import 'package:impact_driver/layouts/pages/row_material/detail.dart';
 import 'package:impact_driver/layouts/pages/sales/detail.dart';
+import '../layouts/pages/finished_material/detail.dart';
 import '../layouts/pages/finished_material/index.dart';
 import '../layouts/pages/auth/login.dart';
 import '../layouts/pages/presence.dart';
@@ -17,7 +19,11 @@ class AppRoutes {
     '/login': (context) => const Login(),
     '/tabs': (context) => const Tabs(),
     '/row-material-stock': (context) => const RowMaterial(),
+    '/row-material-detail': (context) => RowMaterialDetail(
+        content: ModalRoute.of(context)?.settings.arguments as Map),
     '/finished-material-stock': (context) => const FinishedMaterial(),
+    '/finished-material-detail': (context) => FinishedMaterialDetail(
+        content: ModalRoute.of(context)?.settings.arguments as Map),
     '/presence': (context) => const Presence(),
     '/delivery': (context) => const Delivery(),
     '/sales': (context) => const Sales(),
