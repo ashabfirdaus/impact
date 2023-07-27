@@ -11,13 +11,74 @@ class FinishedMaterial extends StatefulWidget {
 }
 
 class _FinishedMaterialState extends State<FinishedMaterial> {
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Produk Jadi');
+  bool showBackButton = true;
+  final searchText = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchText.dispose();
+    super.dispose();
+  }
+
+  void searchActive() {
+    setState(() {
+      if (customIcon.icon == Icons.search) {
+        showBackButton = false;
+        customIcon = const Icon(Icons.cancel);
+        customSearchBar = ListTile(
+          leading: const Icon(
+            Icons.search,
+            color: Colors.white,
+            // size: 28,
+          ),
+          title: TextField(
+            controller: searchText,
+            decoration: const InputDecoration(
+              hintText: 'Masukkan kata kunci ...',
+              hintStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontStyle: FontStyle.italic,
+              ),
+              border: InputBorder.none,
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        );
+      } else {
+        customIcon = const Icon(Icons.search);
+        customSearchBar = const Text('Produk Jadi');
+        showBackButton = true;
+        setState(() {
+          searchText.text = '';
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Produk Jadi'),
+          title: customSearchBar,
+          actions: [
+            IconButton(
+              onPressed: searchActive,
+              icon: customIcon,
+            )
+          ],
+          automaticallyImplyLeading: showBackButton,
           bottom: const TabBar(
             labelColor: Colors.white,
             indicatorColor: Colors.white,
@@ -38,10 +99,10 @@ class _FinishedMaterialState extends State<FinishedMaterial> {
           ),
           backgroundColor: GlobalConfig.primaryColor,
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            AllFinishedMaterial(),
-            FinishedMaterialStockLimit(),
+            AllFinishedMaterial(searchText: searchText),
+            FinishedMaterialStockLimit(searchText: searchText),
           ],
         ),
       ),

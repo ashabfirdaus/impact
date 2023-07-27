@@ -1,0 +1,100 @@
+{
+    "status": 200,
+    "message": "data fetched",
+    "values": [
+        {
+            "jadwal": {
+                "id": "20",
+                "status_shift_id": "1",
+                "karyawan_id": "1",
+                "tanggal": "2023-07-19",
+                "gudang_id": "1",
+                "shift_in": null,
+                "shift_out": null,
+                "actual_in": "",
+                "actual_out": ""
+            },
+            "karyawan": {
+                "id": "1",
+                "kode": "IF-2305-6534",
+                "nik": "350741115505",
+                "nama": "Rendy Yani Susanto, S.Pdi",
+                "jk": "Laki-Laki",
+                "no_hp": "+6285894632505",
+                "alamat": "Malang",
+                "province_id": "15",
+                "city_id": "232",
+                "email": "rendyyanisusanto@gmail.com",
+                "jabatan_id": "1",
+                "tanggal_masuk": "2023-02-08",
+                "status": "1",
+                "created_at": "2023-02-08 12:07:22",
+                "created_by": "1",
+                "updated_at": "2023-06-12 13:48:54",
+                "updated_by": null,
+                "status_karyawan_id": "2",
+                "uid_fingerprint": "111"
+            },
+            "status_shift": {
+                "id": "1",
+                "kode": "Full",
+                "nama": "Full Time",
+                "color": "#00a336",
+                "created_at": "2023-05-19 01:11:32",
+                "created_by": "0000-00-00 00:00:00",
+                "updated_at": null,
+                "updated_by": null,
+                "status": "1"
+            },
+            "actual_in": "12:01:01",
+            "actual_out": null
+        },
+        {
+            "jadwal": {
+                "id": "21",
+                "status_shift_id": "1",
+                "karyawan_id": "2",
+                "tanggal": "2023-07-19",
+                "gudang_id": "1",
+                "shift_in": null,
+                "shift_out": null,
+                "actual_in": "",
+                "actual_out": ""
+            },
+            "karyawan": {
+                "id": "2",
+                "kode": "IF-2305-8172",
+                "nik": "350741115505",
+                "nama": "Achmad Syaifullah",
+                "jk": "Laki-Laki",
+                "no_hp": "+6281933046907",
+                "alamat": "Malang",
+                "province_id": "15",
+                "city_id": "232",
+                "email": "A@gmail.com",
+                "jabatan_id": "1",
+                "tanggal_masuk": "2023-05-17",
+                "status": "1",
+                "created_at": "2023-05-17 10:55:03",
+                "created_by": "1",
+                "updated_at": "2023-06-14 21:34:13",
+                "updated_by": null,
+                "status_karyawan_id": "1",
+                "uid_fingerprint": "212"
+            },
+            "status_shift": {
+                "id": "1",
+                "kode": "Full",
+                "nama": "Full Time",
+                "color": "#00a336",
+                "created_at": "2023-05-19 01:11:32",
+                "created_by": "0000-00-00 00:00:00",
+                "updated_at": null,
+                "updated_by": null,
+                "status": "1"
+            },
+            "actual_in": null,
+            "actual_out": null
+        }
+    ]
+}

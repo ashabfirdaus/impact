@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:impact_driver/components/table_custom_qty.dart';
+import '../../../components/row_detail.dart';
 import '../../../services/action.dart';
 import '../../../services/global.dart';
-import '../../../utils/button_full_width.dart';
+import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
 class DetailTransaction extends StatefulWidget {
@@ -74,165 +76,86 @@ class _DetailTransactionState extends State<DetailTransaction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.content['title']),
+        title: const Text('Informasi Surat Jalan'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: selectData.isNotEmpty
-              ? Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                selectData['customer']['nama'],
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                selectData['customer']['alamat'],
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                selectData['customer']['no_hp'],
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                              if (selectData['surat_jalan']['penerima'] !=
-                                  null) ...[
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 60,
-                                      child: Text(
-                                        'Penerima',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10, child: Text(':')),
-                                    Expanded(
-                                      child: Text(selectData['surat_jalan']
-                                          ['penerima']),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 120,
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    color: selectData['surat_jalan'] != null
-                                        ? statusDelivery[
-                                            selectData['surat_jalan']
-                                                ['status_kirim']]['color']
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  selectData['surat_jalan'] != null
-                                      ? statusDelivery[selectData['surat_jalan']
-                                          ['status_kirim']]['status']
-                                      : '',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              if (selectData['surat_jalan']['foto_bukti'] !=
-                                      '' &&
-                                  selectData['surat_jalan']['foto_bukti'] !=
-                                      null) ...[
-                                const SizedBox(height: 20),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: TextButton.icon(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.black54,
-                                    ),
-                                    icon: const Icon(Icons.image),
-                                    label: const Text("Foto Bukti"),
-                                    onPressed: () => previewBuktiFoto(),
-                                  ),
-                                ),
-                              ]
-                            ],
-                          ),
-                        ),
-                      ]),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: GlobalConfig.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: const Text(
-                          'Barang - barang yang dikirim',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
+        child: selectData.isNotEmpty
+            ? SingleChildScrollView(
+                child: Container(
+                margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        selectData['surat_jalan']['kode'],
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: GlobalConfig.primaryColor,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      for (var item in selectData['detail_produk'])
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey.shade200,
-                                width: 1,
-                              ),
-                            ),
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: const Offset(0, 3),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                item['nama_produk'],
-                                style: const TextStyle(fontSize: 15),
-                              )),
-                              Text(
-                                item['qty'].toString(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          RowDetail(
+                            label: 'Tanggal',
+                            value: selectData['surat_jalan']['tanggal'],
+                            type: 'list',
                           ),
-                        ),
-                      const SizedBox(height: 20),
-                      if (selectData['surat_jalan']['status_kirim'] == '0')
-                        ButtonFullWidth(
-                          label: 'Selesaikan',
-                          color: Colors.white,
-                          background: true,
-                          action: () => acceptDelivery(),
-                        )
-                    ],
-                  ),
-                )
-              : const Text(''),
-        ),
+                          RowDetail(
+                            label: 'Pelanggan',
+                            value: selectData['customer']['nama'],
+                            type: 'list',
+                          ),
+                          RowDetail(
+                            label: 'Alamat',
+                            value: selectData['customer']['alamat'],
+                            type: 'list',
+                          ),
+                          RowDetail(
+                            label: 'DETAIL BARANG',
+                            color: Colors.amber.shade100,
+                            type: 'header',
+                          ),
+                          const SizedBox(height: 5),
+                          TableCUstomQty(details: selectData['detail_produk'])
+                          // TableCustom(
+                          //   type: 'sales',
+                          //   details: selectData['detail_sales_order'],
+                          //   subtotal: selectData['sales_order']['subtotal'],
+                          //   discount: selectData['sales_order']['nilai_diskon'],
+                          //   ppn: selectData['sales_order']['total_ppn'],
+                          //   total: selectData['sales_order']['total'],
+                          // )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ))
+            : const NotFound(
+                label: 'Belum ada transaksi',
+                size: 'normal',
+                isButton: false,
+              ),
       ),
     );
   }

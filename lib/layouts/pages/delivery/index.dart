@@ -18,16 +18,22 @@ class _DeliveryState extends State<Delivery> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
   Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
-  final search = TextEditingController();
   Map arrayStatus = {
     '0': {'label': 'Dikirim', 'color': Colors.blue},
     '1': {'label': "Selesai", 'color': Colors.green}
   };
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Pengiriman');
+  bool showBackButton = true;
+  final searchText = TextEditingController();
 
   @override
   void initState() {
     getData();
     super.initState();
+
+    searchText.addListener(detectKeyword);
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
@@ -44,6 +50,51 @@ class _DeliveryState extends State<Delivery> {
     super.dispose();
   }
 
+  void detectKeyword() {
+    setState(() {
+      loadMore['current_page'] = 1;
+    });
+    getData();
+  }
+
+  void searchActive() {
+    setState(() {
+      if (customIcon.icon == Icons.search) {
+        showBackButton = false;
+        customIcon = const Icon(Icons.cancel);
+        customSearchBar = ListTile(
+          leading: const Icon(
+            Icons.search,
+            color: Colors.white,
+            // size: 28,
+          ),
+          title: TextField(
+            controller: searchText,
+            decoration: const InputDecoration(
+              hintText: 'Masukkan kata kunci ...',
+              hintStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontStyle: FontStyle.italic,
+              ),
+              border: InputBorder.none,
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        );
+      } else {
+        customIcon = const Icon(Icons.search);
+        customSearchBar = const Text('Pengiriman');
+        showBackButton = true;
+        setState(() {
+          searchText.text = '';
+        });
+      }
+    });
+  }
+
   Future<void> getData() async {
     EasyLoading.show(status: 'Loading...');
     try {
@@ -51,7 +102,8 @@ class _DeliveryState extends State<Delivery> {
         'Surat_jalan/all',
         {
           "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString()
+          "page": loadMore["current_page"].toString(),
+          "keyword": searchText.text.toString()
         },
       );
 
@@ -95,7 +147,14 @@ class _DeliveryState extends State<Delivery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengiriman'),
+        title: customSearchBar,
+        actions: [
+          IconButton(
+            onPressed: searchActive,
+            icon: customIcon,
+          )
+        ],
+        automaticallyImplyLeading: showBackButton,
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: GestureDetector(
@@ -135,6 +194,16 @@ class _DeliveryState extends State<Delivery> {
                                 ),
                               ),
                             ),
+                            action: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/detail-transaction',
+                                arguments: {
+                                  'id': data['surat_jalan']['id'],
+                                  'title': data['surat_jalan']['kode']
+                                },
+                              );
+                            },
                           );
                         },
                       ),

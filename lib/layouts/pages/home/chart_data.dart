@@ -104,7 +104,7 @@ class _LineChart extends StatelessWidget {
         text = const Text('DEC', style: style);
         break;
       default:
-        text = const Text('');
+        text = const Text('"');
         break;
     }
 

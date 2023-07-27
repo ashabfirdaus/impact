@@ -21,12 +21,6 @@ class _LoginState extends State<Login> {
   final storage = const FlutterSecureStorage();
   bool isShowPassword = true;
   late FocusNode focusNodeUsername;
-  Map data = {
-    'access_token': 'asd',
-    'statusCode': 200,
-    'message': 'Berhasil Login',
-    'user': {'username': ''},
-  };
 
   @override
   void initState() {

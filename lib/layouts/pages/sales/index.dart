@@ -17,17 +17,19 @@ class Sales extends StatefulWidget {
 class _SalesState extends State<Sales> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {
-    'current_page': 1,
-    'next_page': 0,
-    'limit': 12,
-  };
-  final search = TextEditingController();
+  Map loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Penjualan');
+  bool showBackButton = true;
+  final searchText = TextEditingController();
 
   @override
   void initState() {
     getData();
     super.initState();
+
+    searchText.addListener(detectKeyword);
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
@@ -44,6 +46,51 @@ class _SalesState extends State<Sales> {
     super.dispose();
   }
 
+  void detectKeyword() {
+    setState(() {
+      loadMore['current_page'] = 1;
+    });
+    getData();
+  }
+
+  void searchActive() {
+    setState(() {
+      if (customIcon.icon == Icons.search) {
+        showBackButton = false;
+        customIcon = const Icon(Icons.cancel);
+        customSearchBar = ListTile(
+          leading: const Icon(
+            Icons.search,
+            color: Colors.white,
+            // size: 28,
+          ),
+          title: TextField(
+            controller: searchText,
+            decoration: const InputDecoration(
+              hintText: 'Masukkan kata kunci ...',
+              hintStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontStyle: FontStyle.italic,
+              ),
+              border: InputBorder.none,
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        );
+      } else {
+        customIcon = const Icon(Icons.search);
+        customSearchBar = const Text('Penjualan');
+        showBackButton = true;
+        setState(() {
+          searchText.text = '';
+        });
+      }
+    });
+  }
+
   Future<void> getData() async {
     EasyLoading.show(status: 'Loading...');
     try {
@@ -51,7 +98,8 @@ class _SalesState extends State<Sales> {
         'Sales_order/all',
         {
           "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString()
+          "page": loadMore["current_page"].toString(),
+          "keyword": searchText.text.toString()
         },
       );
 
@@ -100,7 +148,14 @@ class _SalesState extends State<Sales> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Penjualan'),
+        title: customSearchBar,
+        actions: [
+          IconButton(
+            onPressed: searchActive,
+            icon: customIcon,
+          )
+        ],
+        automaticallyImplyLeading: showBackButton,
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: GestureDetector(

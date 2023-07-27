@@ -8,7 +8,11 @@ import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
 class AllFinishedMaterial extends StatefulWidget {
-  const AllFinishedMaterial({super.key});
+  final TextEditingController searchText;
+  const AllFinishedMaterial({
+    super.key,
+    required this.searchText,
+  });
 
   @override
   State<AllFinishedMaterial> createState() => _AllFinishedMaterialState();
@@ -18,12 +22,14 @@ class _AllFinishedMaterialState extends State<AllFinishedMaterial> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
   Map loadMore = {'current_page': 1, 'last_page': 1, 'limit': 12};
-  final search = TextEditingController();
 
   @override
   void initState() {
     getData();
     super.initState();
+
+    widget.searchText.addListener(detectKeyword);
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
@@ -40,6 +46,13 @@ class _AllFinishedMaterialState extends State<AllFinishedMaterial> {
     super.dispose();
   }
 
+  void detectKeyword() {
+    setState(() {
+      loadMore['current_page'] = 1;
+    });
+    getData();
+  }
+
   Future<void> getData() async {
     EasyLoading.show(status: 'Loading...');
     try {
@@ -47,7 +60,8 @@ class _AllFinishedMaterialState extends State<AllFinishedMaterial> {
         'Produk/all',
         {
           "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString()
+          "page": loadMore["current_page"].toString(),
+          "keyword": widget.searchText.text.toString()
         },
       );
 
@@ -62,7 +76,7 @@ class _AllFinishedMaterialState extends State<AllFinishedMaterial> {
           loadMore = {
             'current_page': loadMore['current_page'] + 1,
             'last_page': data['max_page'],
-            'limit': 7
+            'limit': 12
           };
         });
       } else {
