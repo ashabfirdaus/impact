@@ -46,8 +46,12 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
     super.dispose();
   }
 
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
   void detectKeyword() {
-    setState(() {
+    setStateIfMounted(() {
       loadMore['current_page'] = 1;
     });
     getData();
@@ -66,7 +70,7 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
       );
 
       if (data['statusCode'] == 200) {
-        setState(() {
+        setStateIfMounted(() {
           if (loadMore['current_page'] == 1) {
             listData = data['values'];
           } else {
@@ -80,7 +84,7 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
           };
         });
       } else {
-        setState(() {
+        setStateIfMounted(() {
           listData = [];
         });
         NotificationBar.toastr(data['message'], 'error');
@@ -93,7 +97,7 @@ class _AllRowMaterialState extends State<AllRowMaterial> {
   }
 
   Future<void> refreshGetData() async {
-    setState(() {
+    setStateIfMounted(() {
       loadMore = {'current_page': 1, 'last_page': 0, 'limit': 12};
     });
 

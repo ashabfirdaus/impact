@@ -48,8 +48,12 @@ class _FinishedMaterialStockLimitState
     super.dispose();
   }
 
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
   void detectKeyword() {
-    setState(() {
+    setStateIfMounted(() {
       loadMore['current_page'] = 1;
     });
     getData();
@@ -68,7 +72,7 @@ class _FinishedMaterialStockLimitState
       );
 
       if (data['statusCode'] == 200) {
-        setState(() {
+        setStateIfMounted(() {
           if (loadMore['current_page'] == 1) {
             listData = data['values'];
           } else {
@@ -82,7 +86,7 @@ class _FinishedMaterialStockLimitState
           };
         });
       } else {
-        setState(() {
+        setStateIfMounted(() {
           listData = [];
         });
         NotificationBar.toastr(data['message'], 'error');
@@ -95,7 +99,7 @@ class _FinishedMaterialStockLimitState
   }
 
   Future<void> refreshGetData() async {
-    setState(() {
+    setStateIfMounted(() {
       loadMore = {'current_page': 1, 'last_page': 0, 'limit': 12};
     });
 
