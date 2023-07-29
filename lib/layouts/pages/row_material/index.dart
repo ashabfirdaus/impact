@@ -16,6 +16,7 @@ class _RowMaterialState extends State<RowMaterial> {
   Widget customSearchBar = const Text('Bahan Baku');
   bool showBackButton = true;
   final searchText = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _RowMaterialState extends State<RowMaterial> {
   void searchActive() {
     setState(() {
       if (customIcon.icon == Icons.search) {
+        searchFocusNode.requestFocus();
         showBackButton = false;
         customIcon = const Icon(Icons.cancel);
         customSearchBar = ListTile(
@@ -40,6 +42,7 @@ class _RowMaterialState extends State<RowMaterial> {
             // size: 28,
           ),
           title: TextField(
+            focusNode: searchFocusNode,
             controller: searchText,
             decoration: const InputDecoration(
               hintText: 'Masukkan kata kunci ...',
@@ -57,6 +60,7 @@ class _RowMaterialState extends State<RowMaterial> {
         );
       } else {
         customIcon = const Icon(Icons.search);
+        searchFocusNode.unfocus();
         customSearchBar = const Text('Bahan Baku');
         showBackButton = true;
         setState(() {

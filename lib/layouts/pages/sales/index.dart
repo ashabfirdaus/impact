@@ -22,6 +22,7 @@ class _SalesState extends State<Sales> {
   Widget customSearchBar = const Text('Penjualan');
   bool showBackButton = true;
   final searchText = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _SalesState extends State<Sales> {
   void searchActive() {
     setState(() {
       if (customIcon.icon == Icons.search) {
+        searchFocusNode.requestFocus();
         showBackButton = false;
         customIcon = const Icon(Icons.cancel);
         customSearchBar = ListTile(
@@ -65,6 +67,7 @@ class _SalesState extends State<Sales> {
             // size: 28,
           ),
           title: TextField(
+            focusNode: searchFocusNode,
             controller: searchText,
             decoration: const InputDecoration(
               hintText: 'Masukkan kata kunci ...',
@@ -82,6 +85,7 @@ class _SalesState extends State<Sales> {
         );
       } else {
         customIcon = const Icon(Icons.search);
+        searchFocusNode.unfocus();
         customSearchBar = const Text('Penjualan');
         showBackButton = true;
         setState(() {

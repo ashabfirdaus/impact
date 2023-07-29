@@ -15,6 +15,7 @@ class _FinishedMaterialState extends State<FinishedMaterial> {
   Widget customSearchBar = const Text('Produk Jadi');
   bool showBackButton = true;
   final searchText = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _FinishedMaterialState extends State<FinishedMaterial> {
   void searchActive() {
     setState(() {
       if (customIcon.icon == Icons.search) {
+        searchFocusNode.requestFocus();
         showBackButton = false;
         customIcon = const Icon(Icons.cancel);
         customSearchBar = ListTile(
@@ -39,6 +41,7 @@ class _FinishedMaterialState extends State<FinishedMaterial> {
             // size: 28,
           ),
           title: TextField(
+            focusNode: searchFocusNode,
             controller: searchText,
             decoration: const InputDecoration(
               hintText: 'Masukkan kata kunci ...',
@@ -56,6 +59,7 @@ class _FinishedMaterialState extends State<FinishedMaterial> {
         );
       } else {
         customIcon = const Icon(Icons.search);
+        searchFocusNode.unfocus();
         customSearchBar = const Text('Produk Jadi');
         showBackButton = true;
         setState(() {

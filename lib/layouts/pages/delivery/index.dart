@@ -26,6 +26,7 @@ class _DeliveryState extends State<Delivery> {
   Widget customSearchBar = const Text('Pengiriman');
   bool showBackButton = true;
   final searchText = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class _DeliveryState extends State<Delivery> {
   void searchActive() {
     setState(() {
       if (customIcon.icon == Icons.search) {
+        searchFocusNode.requestFocus();
         showBackButton = false;
         customIcon = const Icon(Icons.cancel);
         customSearchBar = ListTile(
@@ -69,6 +71,7 @@ class _DeliveryState extends State<Delivery> {
             // size: 28,
           ),
           title: TextField(
+            focusNode: searchFocusNode,
             controller: searchText,
             decoration: const InputDecoration(
               hintText: 'Masukkan kata kunci ...',
@@ -86,6 +89,7 @@ class _DeliveryState extends State<Delivery> {
         );
       } else {
         customIcon = const Icon(Icons.search);
+        searchFocusNode.unfocus();
         customSearchBar = const Text('Pengiriman');
         showBackButton = true;
         setState(() {
