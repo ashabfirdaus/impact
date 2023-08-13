@@ -1,17 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:impact_driver/components/row_data_presence.dart';
 
-import '../../services/action.dart';
-import '../../services/global.dart';
-import '../../utils/not_found.dart';
-import '../../utils/notification_bar.dart';
+import '../../../services/action.dart';
+import '../../../services/global.dart';
+import '../../../utils/not_found.dart';
+import '../../../utils/notification_bar.dart';
 
 class Presence extends StatefulWidget {
-  const Presence({super.key});
+  final TextEditingController searchText;
+  const Presence({
+    super.key,
+    required this.searchText,
+  });
 
   @override
   State<Presence> createState() => _PresenceState();
@@ -21,13 +22,14 @@ class _PresenceState extends State<Presence> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
   Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
-  final search = TextEditingController();
 
   @override
   void initState() {
-    readJson();
-    // getData();
+    getData();
     super.initState();
+
+    widget.searchText.addListener(detectKeyword);
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
@@ -44,27 +46,33 @@ class _PresenceState extends State<Presence> {
     super.dispose();
   }
 
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('images/absen.json');
-    final data = await json.decode(response);
-    setState(() {
-      listData = data['values'];
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
+  void detectKeyword() {
+    setStateIfMounted(() {
+      loadMore['current_page'] = 1;
     });
+    getData();
   }
 
   Future<void> getData() async {
     EasyLoading.show(status: 'Loading...');
     try {
       Map data = await ActionMethod.getNoAuth(
-        'Purchase_order/all',
+        'Presensi/history',
         {
           "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString()
+          "page": loadMore["current_page"].toString(),
+          "keyword": widget.searchText.text.toString()
         },
       );
 
+      print(data);
+
       if (data['statusCode'] == 200) {
-        setState(() {
+        setStateIfMounted(() {
           if (loadMore['current_page'] == 1) {
             listData = data['values'];
           } else {
@@ -78,7 +86,7 @@ class _PresenceState extends State<Presence> {
           };
         });
       } else {
-        setState(() {
+        setStateIfMounted(() {
           listData = [];
         });
         NotificationBar.toastr(data['message'], 'error');
@@ -91,7 +99,7 @@ class _PresenceState extends State<Presence> {
   }
 
   Future<void> refreshGetData() async {
-    setState(() {
+    setStateIfMounted(() {
       loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
     });
 
@@ -102,10 +110,6 @@ class _PresenceState extends State<Presence> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Presensi'),
-        backgroundColor: GlobalConfig.primaryColor,
-      ),
       body: GestureDetector(
         onTap: () => GlobalConfig.unfocus(context),
         child: Scaffold(
@@ -114,15 +118,7 @@ class _PresenceState extends State<Presence> {
               onRefresh: refreshGetData,
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Tanggal 0000-00-00',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   if (listData.isNotEmpty)
                     Expanded(
                       child: ListView.builder(
@@ -142,7 +138,7 @@ class _PresenceState extends State<Presence> {
                   else
                     const Expanded(
                       child: NotFound(
-                        label: 'Belum ada transaksi',
+                        label: 'Belum ada data',
                         size: 'normal',
                         isButton: false,
                       ),

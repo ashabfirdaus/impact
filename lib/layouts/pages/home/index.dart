@@ -78,67 +78,69 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: refreshGetData,
-          child: Column(children: [
-            Image.asset(
-              'images/logo.png',
-              width: 150,
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: const LineChartSample1(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Bahan Baku',
-                  action: () =>
-                      Navigator.pushNamed(context, '/row-material-stock'),
-                  width: 120,
-                ),
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Produk Jadi',
-                  action: () =>
-                      Navigator.pushNamed(context, '/finished-material-stock'),
-                  width: 120,
-                ),
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Pembelian',
-                  action: () => Navigator.pushNamed(context, '/purchase'),
-                  width: 120,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Penjualan',
-                  action: () => Navigator.pushNamed(context, '/sales'),
-                  width: 120,
-                ),
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Presensi',
-                  action: () => Navigator.pushNamed(context, '/presence'),
-                  width: 120,
-                ),
-                ButtonHome(
-                  icon: Image.asset('images/logo.png', width: 70.0),
-                  label: 'Pengiriman',
-                  action: () => Navigator.pushNamed(context, '/delivery'),
-                  width: 120,
-                ),
-              ],
-            )
-          ]),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: refreshGetData,
+            child: Column(children: [
+              Image.asset(
+                'images/logo.png',
+                width: 150,
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                child: const LineChartSample1(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Bahan Baku',
+                    action: () =>
+                        Navigator.pushNamed(context, '/row-material-stock'),
+                    width: 120,
+                  ),
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Produk Jadi',
+                    action: () => Navigator.pushNamed(
+                        context, '/finished-material-stock'),
+                    width: 120,
+                  ),
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Pembelian',
+                    action: () => Navigator.pushNamed(context, '/purchase'),
+                    width: 120,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Penjualan',
+                    action: () => Navigator.pushNamed(context, '/sales'),
+                    width: 120,
+                  ),
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Karyawan',
+                    action: () => Navigator.pushNamed(context, '/employee'),
+                    width: 120,
+                  ),
+                  ButtonHome(
+                    icon: Image.asset('images/logo.png', width: 70.0),
+                    label: 'Pengiriman',
+                    action: () => Navigator.pushNamed(context, '/delivery'),
+                    width: 120,
+                  ),
+                ],
+              ),
+            ]),
+          ),
         ),
       ),
     );
