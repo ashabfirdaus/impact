@@ -47,8 +47,8 @@ class _LineChart extends StatelessWidget {
 
   List<LineChartBarData> get lineBarsData2 => [
         lineChartBarData2_1,
-        lineChartBarData2_2,
-        lineChartBarData2_3,
+        // lineChartBarData2_2,
+        // lineChartBarData2_3,
       ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -153,40 +153,40 @@ class _LineChart extends StatelessWidget {
         ],
       );
 
-  LineChartBarData get lineChartBarData2_2 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        color: Colors.pink,
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: true),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-      );
+  // LineChartBarData get lineChartBarData2_2 => LineChartBarData(
+  //       isCurved: true,
+  //       curveSmoothness: 0,
+  //       color: Colors.pink,
+  //       barWidth: 4,
+  //       isStrokeCapRound: true,
+  //       dotData: const FlDotData(show: true),
+  //       belowBarData: BarAreaData(show: false),
+  //       spots: const [
+  //         FlSpot(1, 1),
+  //         FlSpot(3, 2.8),
+  //         FlSpot(7, 1.2),
+  //         FlSpot(10, 2.8),
+  //         FlSpot(12, 2.6),
+  //         FlSpot(13, 3.9),
+  //       ],
+  //     );
 
-  LineChartBarData get lineChartBarData2_3 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        color: Colors.cyan,
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: true),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
-      );
+  // LineChartBarData get lineChartBarData2_3 => LineChartBarData(
+  //       isCurved: true,
+  //       curveSmoothness: 0,
+  //       color: Colors.cyan,
+  //       barWidth: 4,
+  //       isStrokeCapRound: true,
+  //       dotData: const FlDotData(show: true),
+  //       belowBarData: BarAreaData(show: false),
+  //       spots: const [
+  //         FlSpot(1, 3.8),
+  //         FlSpot(3, 1.9),
+  //         FlSpot(6, 5),
+  //         FlSpot(10, 3.3),
+  //         FlSpot(13, 4.5),
+  //       ],
+  //     );
 }
 
 class LineChartSample1 extends StatefulWidget {

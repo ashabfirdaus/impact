@@ -17,39 +17,42 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List listData = [];
+  String typeData = 'sales';
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    // getData();
+    getData();
     super.initState();
   }
 
-  // Future<void> getData() async {
-  //   EasyLoading.show(status: 'Loading...');
-  //   try {
+  Future<void> getData() async {
+    EasyLoading.show(status: 'Loading...');
+    try {
+      Map data =
+          await ActionMethod.getNoAuth('stats/sales_order_graph', {"id": ''});
+      print(data);
+      if (data['statusCode'] == 200) {
+        setState(() {
+          listData = data['values'];
+        });
+      } else {
+        setState(() {
+          listData = [];
+        });
+        NotificationBar.toastr(data['message'], 'error');
+      }
+    } catch (e) {
+      NotificationBar.toastr('Internal Server Error', 'error');
+    }
 
-  //     if (data['statusCode'] == 200) {
-  //       setState(() {
-
-  //       });
-  //     } else {
-  //       setState(() {
-  //         listData = [];
-  //       });
-  //       NotificationBar.toastr(data['message'], 'error');
-  //     }
-  //   } catch (e) {
-  //     NotificationBar.toastr('Internal Server Error', 'error');
-  //   }
-
-  //   EasyLoading.dismiss();
-  // }
+    EasyLoading.dismiss();
+  }
 
   Future<void> refreshGetData() async {
-    // await getData();
+    await getData();
     return;
   }
 
@@ -89,7 +92,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
               Container(
                 margin: const EdgeInsets.all(10),
-                child: const LineChartSample1(),
+                child: LineChartSample1(data: listData),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
