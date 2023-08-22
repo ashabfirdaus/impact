@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:impact_driver/components/table_detail.dart';
-import 'package:impact_driver/layouts/pages/home/chart_data.dart';
+import 'package:impact_driver/layouts/pages/home/line_chart_view.dart';
 import 'package:impact_driver/services/global.dart';
 import '../../../components/button_home.dart';
 import '../../../services/action.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List listData = [];
   String typeData = 'sales';
+  List rangeData = [];
 
   @override
   bool get wantKeepAlive => true;
@@ -33,7 +35,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     try {
       Map data =
           await ActionMethod.getNoAuth('stats/sales_order_graph', {"id": ''});
-      print(data);
       if (data['statusCode'] == 200) {
         setState(() {
           listData = data['values'];
@@ -44,11 +45,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         });
         NotificationBar.toastr(data['message'], 'error');
       }
+
+      reStructureData();
     } catch (e) {
       NotificationBar.toastr('Internal Server Error', 'error');
     }
 
     EasyLoading.dismiss();
+  }
+
+  void reStructureData() {
+    List dataY = [];
+    List dataX = [];
+    for (var i = 0; i < listData.length; i++) {
+      List array = listData.asMap()[i];
+      dataY.add(array.asMap()[1] as num);
+      dataX.add(array.asMap()[0].toString());
+    }
+
+    var maxY = dataY.reduce((curr, next) => curr > next ? curr : next);
+    var minY = dataY.reduce((curr, next) => curr < next ? curr : next);
+    print(minY);
+    print(dataX);
   }
 
   Future<void> refreshGetData() async {
@@ -92,7 +110,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
               Container(
                 margin: const EdgeInsets.all(10),
-                child: LineChartSample1(data: listData),
+                child: LineChartView(dataChart: listData),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
