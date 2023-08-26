@@ -3,7 +3,15 @@ import 'package:fl_chart/fl_chart.dart';
 
 class LineChartView extends StatelessWidget {
   final List dataChart;
-  const LineChartView({super.key, required this.dataChart});
+  final List rangeDataX;
+  final List rangeDataY;
+  final List contentChart;
+  const LineChartView(
+      {super.key,
+      required this.dataChart,
+      required this.rangeDataY,
+      required this.rangeDataX,
+      required this.contentChart});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,7 @@ class LineChartView extends StatelessWidget {
         lineBarsData: lineBarsData2,
         minX: 0,
         maxX: dataChart.length.toDouble() - 1,
-        maxY: 6,
+        maxY: rangeDataX.length.toDouble(),
         minY: 0,
       );
 
@@ -86,28 +94,10 @@ class LineChartView extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '1m';
-        break;
-      case 2:
-        text = '2m';
-        break;
-      case 3:
-        text = '3m';
-        break;
-      case 4:
-        text = '5m';
-        break;
-      case 5:
-        text = '6m';
-        break;
-      default:
-        return Container();
-    }
 
-    return Text(text, style: style, textAlign: TextAlign.center);
+    // print(rangeDataX[value.toInt()]);
+    // print(value.toInt());
+    return Text(value.toString(), style: style, textAlign: TextAlign.center);
   }
 
   SideTitles leftTitles() => SideTitles(
@@ -122,12 +112,11 @@ class LineChartView extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 13,
     );
-    List array = dataChart.asMap()[value.toInt()];
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 4,
-      child: Text(array.asMap()[0].toString(), style: style),
+      child: Text(rangeDataY[value.toInt()].toString(), style: style),
     );
   }
 
@@ -158,11 +147,9 @@ class LineChartView extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: const FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0),
-          FlSpot(1, 1),
-          FlSpot(2, 2),
-          FlSpot(3, 3),
+        spots: [
+          for (var i = 0; i < contentChart.length; i++)
+            FlSpot(contentChart[i][0], contentChart[i][1]),
         ],
       );
 }

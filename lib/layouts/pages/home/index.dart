@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:math';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:impact_driver/layouts/pages/home/line_chart_view.dart';
-import 'package:impact_driver/services/global.dart';
 import '../../../components/button_home.dart';
 import '../../../services/action.dart';
 import '../../../utils/notification_bar.dart';
@@ -19,7 +16,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List listData = [];
   String typeData = 'sales';
-  List rangeData = [];
+  List rangeDataX = [];
+  List rangeDataY = [];
+  List contentChart = [];
 
   @override
   bool get wantKeepAlive => true;
@@ -57,16 +56,22 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void reStructureData() {
     List dataY = [];
     List dataX = [];
+    List dataC = [];
     for (var i = 0; i < listData.length; i++) {
       List array = listData.asMap()[i];
       dataY.add(array.asMap()[1] as num);
       dataX.add(array.asMap()[0].toString());
+      dataC.add([i.toDouble(), array.asMap()[1].toDouble()]);
     }
 
     var maxY = dataY.reduce((curr, next) => curr > next ? curr : next);
-    var minY = dataY.reduce((curr, next) => curr < next ? curr : next);
-    print(minY);
-    print(dataX);
+    var list = List<int>.generate(maxY + 1, (i) => i);
+
+    setState(() {
+      rangeDataX = list;
+      rangeDataY = dataX;
+      contentChart = dataC;
+    });
   }
 
   Future<void> refreshGetData() async {
@@ -110,7 +115,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
               Container(
                 margin: const EdgeInsets.all(10),
-                child: LineChartView(dataChart: listData),
+                child: LineChartView(
+                  dataChart: listData,
+                  rangeDataX: rangeDataX,
+                  rangeDataY: rangeDataY,
+                  contentChart: contentChart,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
