@@ -69,8 +69,6 @@ class _PresenceState extends State<Presence> {
         },
       );
 
-      print(data);
-
       if (data['statusCode'] == 200) {
         setStateIfMounted(() {
           if (loadMore['current_page'] == 1) {
