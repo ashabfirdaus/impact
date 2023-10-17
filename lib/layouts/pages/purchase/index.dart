@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -17,12 +19,13 @@ class Purchase extends StatefulWidget {
 class _PurchaseState extends State<Purchase> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
+  Map loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
   Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = const Text('Pembelian');
+  Widget customSearchBar = const Text('PEMBELIAN');
   bool showBackButton = true;
   final searchText = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
+  Timer? timer;
 
   @override
   void initState() {
@@ -34,7 +37,7 @@ class _PurchaseState extends State<Purchase> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] == loadMore['next_page']) {
+        if (loadMore['next_page'] != '') {
           getData();
         }
       }
@@ -48,10 +51,18 @@ class _PurchaseState extends State<Purchase> {
   }
 
   void detectKeyword() {
-    setState(() {
-      loadMore['current_page'] = 1;
+    if (timer != null) {
+      timer?.cancel();
+      timer = null;
+    }
+
+    timer = Timer(const Duration(seconds: 1), () async {
+      setState(() {
+        loadMore['current_page'] = 1;
+      });
+
+      await getData();
     });
-    getData();
   }
 
   void searchActive() {
@@ -86,7 +97,7 @@ class _PurchaseState extends State<Purchase> {
       } else {
         customIcon = const Icon(Icons.search);
         searchFocusNode.unfocus();
-        customSearchBar = const Text('Pembelian');
+        customSearchBar = const Text('PEMBELIAN');
         showBackButton = true;
         setState(() {
           searchText.text = '';
@@ -136,7 +147,7 @@ class _PurchaseState extends State<Purchase> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
+      loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
     });
 
     await getData();

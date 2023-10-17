@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:impact_driver/components/row_data.dart';
@@ -17,16 +19,17 @@ class Delivery extends StatefulWidget {
 class _DeliveryState extends State<Delivery> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
+  Map loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
   Map arrayStatus = {
     '0': {'label': 'Dikirim', 'color': Colors.blue},
     '1': {'label': "Selesai", 'color': Colors.green}
   };
   Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = const Text('Pengiriman');
+  Widget customSearchBar = const Text('PENGIRIMAN');
   bool showBackButton = true;
   final searchText = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
+  Timer? timer;
 
   @override
   void initState() {
@@ -38,7 +41,7 @@ class _DeliveryState extends State<Delivery> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] == loadMore['next_page']) {
+        if (loadMore['next_page'] != '') {
           getData();
         }
       }
@@ -52,10 +55,18 @@ class _DeliveryState extends State<Delivery> {
   }
 
   void detectKeyword() {
-    setState(() {
-      loadMore['current_page'] = 1;
+    if (timer != null) {
+      timer?.cancel();
+      timer = null;
+    }
+
+    timer = Timer(const Duration(seconds: 1), () async {
+      setState(() {
+        loadMore['current_page'] = 1;
+      });
+
+      await getData();
     });
-    getData();
   }
 
   void searchActive() {
@@ -90,7 +101,7 @@ class _DeliveryState extends State<Delivery> {
       } else {
         customIcon = const Icon(Icons.search);
         searchFocusNode.unfocus();
-        customSearchBar = const Text('Pengiriman');
+        customSearchBar = const Text('PENGIRIMAN');
         showBackButton = true;
         setState(() {
           searchText.text = '';
@@ -140,7 +151,7 @@ class _DeliveryState extends State<Delivery> {
 
   Future<void> refreshGetData() async {
     setState(() {
-      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
+      loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
     });
 
     await getData();

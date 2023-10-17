@@ -76,7 +76,7 @@ class _DetailTransactionState extends State<DetailTransaction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Informasi Surat Jalan'),
+        title: const Text('PENGIRIMAN'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(

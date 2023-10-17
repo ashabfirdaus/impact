@@ -33,7 +33,7 @@ class _FinishedMaterialDetailState extends State<FinishedMaterialDetail> {
     EasyLoading.show(status: 'Loading...');
     try {
       Map data = await ActionMethod.postNoAuth(
-          'Bahan/detail', {"id": widget.content['id']});
+          'produk/detail', {"id": widget.content['id']});
       if (data['statusCode'] == 200) {
         setState(() {
           selectData = data['values'];
@@ -55,7 +55,7 @@ class _FinishedMaterialDetailState extends State<FinishedMaterialDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Produk Jadi'),
+        title: const Text('PRODUK JADI'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(

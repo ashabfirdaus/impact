@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/global.dart';
-import '../../utils/tabbutton.dart';
+import 'home/index.dart';
+import 'home/profile.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
@@ -10,59 +11,38 @@ class Tabs extends StatefulWidget {
 }
 
 class _TabsState extends State<Tabs> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  int _selectedIndex = 0;
+  static final List<Widget> _pages = <Widget>[
+    const Home(),
+    const Profile(),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: 2);
-    _tabController.addListener(_handleTabSelection);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  void _handleTabSelection() {
-    GlobalConfig.unfocus(context);
-    setState(() {});
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          for (final tabItem in TabNavigation.items) tabItem.page,
-        ],
+      body: Center(
+        child: _pages.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(color: GlobalConfig.primaryColor, width: 1.0),
-          ),
-        ),
-        child: TabBar(
-          indicatorColor: GlobalConfig.primaryColor,
-          labelColor: Colors.black,
-          controller: _tabController,
-          tabs: <Widget>[
-            for (var i = 0; i < TabNavigation.items.length; i++)
-              Tab(
-                icon: _tabController.index == i
-                    ? TabNavigation.items[i].iconActive
-                    : TabNavigation.items[i].iconDefault,
-                text: TabNavigation.items[i].title,
-                iconMargin: const EdgeInsets.all(2),
-              ),
+      bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_2),
+              label: 'Akun',
+            ),
           ],
-        ),
-      ),
+          currentIndex: _selectedIndex, //New
+          onTap: _onItemTapped,
+          selectedItemColor: GlobalConfig.primaryColor),
     );
   }
 }

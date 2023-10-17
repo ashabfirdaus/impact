@@ -55,7 +55,7 @@ class _SalesDetailState extends State<SalesDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaksi Penjualan'),
+        title: const Text('PENJUALAN'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(

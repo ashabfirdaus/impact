@@ -55,7 +55,7 @@ class _PurchaseDetailState extends State<PurchaseDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaksi Pembelian'),
+        title: const Text('PEMBELIAN'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(

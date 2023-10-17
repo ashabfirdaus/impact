@@ -36,6 +36,8 @@ class ActionMethod {
           GlobalConfig.baseUrl, '${GlobalConfig.pathUrl}$path', {...param});
     }
 
+    print(url);
+
     var response = await http.get(url);
     Map data = jsonDecode(response.body);
 

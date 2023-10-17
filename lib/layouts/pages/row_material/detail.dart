@@ -55,7 +55,7 @@ class _RowMaterialDetailState extends State<RowMaterialDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bahan Baku'),
+        title: const Text('BAHAN BAKU'),
         backgroundColor: GlobalConfig.primaryColor,
       ),
       body: SafeArea(
