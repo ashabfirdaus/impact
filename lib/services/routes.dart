@@ -5,7 +5,6 @@ import 'package:impact_driver/layouts/pages/purchase/detail.dart';
 import 'package:impact_driver/layouts/pages/row_material/detail.dart';
 import 'package:impact_driver/layouts/pages/sales/detail.dart';
 import '../layouts/pages/delivery/detail_transaction.dart';
-import '../layouts/pages/employee/detail.dart';
 import '../layouts/pages/employee/index.dart';
 import '../layouts/pages/finished_material/detail.dart';
 import '../layouts/pages/finished_material/index.dart';
@@ -37,13 +36,7 @@ class AppRoutes {
     '/detail-transaction': (context) => DetailTransaction(
         content: ModalRoute.of(context)?.settings.arguments as Map),
     '/employee': (context) => const Employee(),
-    '/employee_detail': (context) => EmployeeDetail(
-        content: ModalRoute.of(context)?.settings.arguments as Map),
     '/history-presence': (context) => HistoryPresence(
         content: ModalRoute.of(context)?.settings.arguments as Map),
-    // '/accept-delivery': (context) => AcceptDelivery(
-    //     content: ModalRoute.of(context)?.settings.arguments as Map),
-    // '/preview-image': (context) =>
-    //     PreviewImage(content: ModalRoute.of(context)?.settings.arguments as Map)
   };
 }

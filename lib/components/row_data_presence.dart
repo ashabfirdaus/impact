@@ -4,6 +4,7 @@ class RowDataPresence extends StatelessWidget {
   final String name;
   final String actualIn;
   final String actualOut;
+  final String date;
   final VoidCallback? action;
 
   const RowDataPresence({
@@ -12,6 +13,7 @@ class RowDataPresence extends StatelessWidget {
     required this.actualOut,
     required this.actualIn,
     this.action,
+    required this.date,
   });
 
   String convertTime(stringTime) {
@@ -45,12 +47,25 @@ class RowDataPresence extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             const Divider(color: Colors.grey),
             Row(
@@ -63,11 +78,13 @@ class RowDataPresence extends StatelessWidget {
                         'Masuk',
                         style: TextStyle(fontSize: 15),
                       ),
-                      Text(convertTime(actualIn),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ))
+                      Text(
+                        convertTime(actualIn),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                     ],
                   ),
                 ),

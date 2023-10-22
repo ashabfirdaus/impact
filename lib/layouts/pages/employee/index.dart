@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../../components/row_data.dart';
@@ -24,6 +26,7 @@ class _EmployeeState extends State<Employee> {
   Widget customSearchBar = const Text('KARYAWAN');
   List listData = [];
   Map loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
+  Timer? timer;
 
   @override
   void initState() {
@@ -49,10 +52,18 @@ class _EmployeeState extends State<Employee> {
   }
 
   void detectKeyword() {
-    setState(() {
-      loadMore['current_page'] = 1;
+    if (timer != null) {
+      timer?.cancel();
+      timer = null;
+    }
+
+    timer = Timer(const Duration(seconds: 1), () async {
+      setState(() {
+        loadMore['current_page'] = 1;
+      });
+
+      await getData();
     });
-    getData();
   }
 
   void searchActive() {
@@ -100,7 +111,7 @@ class _EmployeeState extends State<Employee> {
     setState(() {
       activeMenu = index;
       loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
-      baseUrl = index == 0 ? 'Karyawan/all' : 'Presensi/history';
+      baseUrl = index == 0 ? 'Karyawan/all' : 'Presensi/today';
       searchText.text = '';
       listData = [];
     });
@@ -111,14 +122,21 @@ class _EmployeeState extends State<Employee> {
   Future<void> getData() async {
     EasyLoading.show(status: 'Loading...');
     try {
-      Map data = await ActionMethod.getNoAuth(
-        baseUrl,
-        {
-          "num_page": loadMore["limit"].toString(),
-          "page": loadMore["current_page"].toString(),
-          "keyword": searchText.text.toString()
-        },
-      );
+      Map data;
+      if (activeMenu == 0) {
+        data = await ActionMethod.getNoAuth(
+          baseUrl,
+          {
+            "num_page": loadMore["limit"].toString(),
+            "page": loadMore["current_page"].toString(),
+            "keyword": searchText.text.toString()
+          },
+        );
+      } else {
+        data = await ActionMethod.getNoAuth(baseUrl, {
+          "keyword": searchText.text.toString(),
+        });
+      }
 
       if (data['statusCode'] == 200) {
         setState(() {
@@ -251,8 +269,13 @@ class _EmployeeState extends State<Employee> {
                     } else {
                       return RowDataPresence(
                         name: data['karyawan']['nama'],
-                        actualIn: data['actual_in'].toString(),
-                        actualOut: data['actual_out'].toString(),
+                        actualIn: data['actual_in'] != null
+                            ? data['actual_in']['jam']
+                            : 'null',
+                        actualOut: data['actual_out'] != null
+                            ? data['actual_out']['jam']
+                            : 'null',
+                        date: data['jadwal']['tanggal'],
                       );
                     }
                   },

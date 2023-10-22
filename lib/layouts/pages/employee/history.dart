@@ -21,7 +21,7 @@ class HistoryPresence extends StatefulWidget {
 class _HistoryPresenceState extends State<HistoryPresence> {
   List listData = [];
   final ScrollController _scrollController = ScrollController();
-  Map loadMore = {'current_page': 1, 'next_page': 1, 'limit': 12};
+  Map loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _HistoryPresenceState extends State<HistoryPresence> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels.toString() ==
           _scrollController.position.maxScrollExtent.toString()) {
-        if (loadMore['current_page'] == loadMore['next_page']) {
+        if (loadMore['next_page'] != '') {
           getData();
         }
       }
@@ -42,10 +42,6 @@ class _HistoryPresenceState extends State<HistoryPresence> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void setStateIfMounted(f) {
-    if (mounted) setState(f);
   }
 
   Future<void> getData() async {
@@ -61,7 +57,7 @@ class _HistoryPresenceState extends State<HistoryPresence> {
       );
 
       if (data['statusCode'] == 200) {
-        setStateIfMounted(() {
+        setState(() {
           if (loadMore['current_page'] == 1) {
             listData = data['values'];
           } else {
@@ -75,7 +71,7 @@ class _HistoryPresenceState extends State<HistoryPresence> {
           };
         });
       } else {
-        setStateIfMounted(() {
+        setState(() {
           listData = [];
         });
         NotificationBar.toastr(data['message'], 'error');
@@ -88,8 +84,8 @@ class _HistoryPresenceState extends State<HistoryPresence> {
   }
 
   Future<void> refreshGetData() async {
-    setStateIfMounted(() {
-      loadMore = {'current_page': 1, 'next_page': 0, 'limit': 12};
+    setState(() {
+      loadMore = {'current_page': 1, 'next_page': '', 'limit': 12};
     });
 
     await getData();
@@ -122,8 +118,13 @@ class _HistoryPresenceState extends State<HistoryPresence> {
                           final data = listData[index];
                           return RowDataPresence(
                             name: data['karyawan']['nama'],
-                            actualIn: data['actual_in'].toString(),
-                            actualOut: data['actual_out'].toString(),
+                            actualIn: data['actual_in'] != null
+                                ? data['actual_in']['jam']
+                                : 'null',
+                            actualOut: data['actual_out'] != null
+                                ? data['actual_out']['jam']
+                                : 'null',
+                            date: data['jadwal']['tanggal'],
                           );
                         },
                       ),
