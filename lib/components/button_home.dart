@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:impact_driver/services/global.dart';
 
 class ButtonHome extends StatefulWidget {
   final Image icon;
@@ -26,27 +27,39 @@ class _ButtonHomeState extends State<ButtonHome> {
       width: widget.width,
       child: TextButton(
         onPressed: () => widget.action(),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              widget.icon,
-              const SizedBox(height: 5.0),
-              Text(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                ),
+              ),
+              child: widget.icon,
+            ),
+            Container(
+              width: 92,
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: GlobalConfig.primaryColor,
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
+              ),
+              child: Text(
                 widget.label,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15.0,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

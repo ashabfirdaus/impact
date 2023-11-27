@@ -6,7 +6,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../../components/row_data.dart';
 import '../../../services/action.dart';
 import '../../../services/global.dart';
-import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
 class Purchase extends StatefulWidget {
@@ -56,7 +55,7 @@ class _PurchaseState extends State<Purchase> {
       timer = null;
     }
 
-    timer = Timer(const Duration(seconds: 1), () async {
+    timer = Timer(const Duration(milliseconds: 350), () async {
       setState(() {
         loadMore['current_page'] = 1;
       });
@@ -201,16 +200,7 @@ class _PurchaseState extends State<Purchase> {
                           );
                         },
                       ),
-                    )
-                  else
-                    const Expanded(
-                      child: NotFound(
-                        label: 'Belum ada transaksi',
-                        size: 'normal',
-                        isButton: false,
-                      ),
                     ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -6,7 +6,6 @@ import 'package:impact_driver/components/row_data.dart';
 
 import '../../../services/action.dart';
 import '../../../services/global.dart';
-import '../../../utils/not_found.dart';
 import '../../../utils/notification_bar.dart';
 
 class Delivery extends StatefulWidget {
@@ -60,7 +59,7 @@ class _DeliveryState extends State<Delivery> {
       timer = null;
     }
 
-    timer = Timer(const Duration(seconds: 1), () async {
+    timer = Timer(const Duration(milliseconds: 350), () async {
       setState(() {
         loadMore['current_page'] = 1;
       });
@@ -222,16 +221,7 @@ class _DeliveryState extends State<Delivery> {
                           );
                         },
                       ),
-                    )
-                  else
-                    const Expanded(
-                      child: NotFound(
-                        label: 'Belum ada transaksi',
-                        size: 'normal',
-                        isButton: false,
-                      ),
                     ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),

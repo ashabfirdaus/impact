@@ -55,7 +55,6 @@ class _LoginState extends State<Login> {
         await storage.write(
             key: 'user', value: jsonEncode(data['values']['user']));
 
-        NotificationBar.toastr(data['message'], 'success');
         EasyLoading.dismiss();
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/tabs', (route) => false);

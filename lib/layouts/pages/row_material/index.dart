@@ -56,7 +56,7 @@ class _RowMaterialState extends State<RowMaterial> {
       timer = null;
     }
 
-    timer = Timer(const Duration(seconds: 1), () async {
+    timer = Timer(const Duration(milliseconds: 350), () async {
       setState(() {
         loadMore['current_page'] = 1;
       });
