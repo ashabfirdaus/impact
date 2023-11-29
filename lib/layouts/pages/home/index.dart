@@ -75,14 +75,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               '${selectedDates.end.day}-${selectedDates.end.month}-${selectedDates.end.year}',
         },
       );
+
       if (data['statusCode'] == 200) {
         setState(() {
           var temp = {};
-          for (String key in data['values']['data'].keys) {
-            temp[key] = data['values']['data'][key] + 0.0;
-          }
+          if (data['values']['data'].length > 0) {
+            for (String key in data['values']['data'].keys) {
+              temp[key] = data['values']['data'][key] + 0.0;
+            }
 
-          listData2 = {...temp};
+            listData2 = {...temp};
+          } else {
+            listData2 = {'Tidak ada': 0};
+          }
         });
       } else {
         setState(() {
