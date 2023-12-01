@@ -41,7 +41,7 @@ class _ButtonHomeState extends State<ButtonHome> {
               child: widget.icon,
             ),
             Container(
-              width: 92,
+              width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: GlobalConfig.primaryColor,
@@ -54,7 +54,7 @@ class _ButtonHomeState extends State<ButtonHome> {
                 widget.label,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 13.0,
                   color: Colors.white,
                 ),
               ),

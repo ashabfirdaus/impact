@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List listData1 = [];
-  Map<String, double> listData2 = {'Tidak ada': 0};
+  Map<String, double> listData2 = {'Data Belum Tersedia': 0};
   DateTimeRange selectedDates = DateTimeRange(
     start: DateTime.utc(DateTime.now().year, DateTime.now().month, 1),
     end: DateTime.utc(DateTime.now().year, DateTime.now().month + 1)
@@ -86,12 +86,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
             listData2 = {...temp};
           } else {
-            listData2 = {'Tidak ada': 0};
+            listData2 = {'Data Belum Tersedia': 0};
           }
         });
       } else {
         setState(() {
-          listData2 = {'Tidak ada': 0};
+          listData2 = {'Data Belum Tersedia': 0};
         });
         NotificationBar.toastr(data['message'], 'error');
       }
@@ -220,28 +220,41 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 // gradientList: ---To add gradient colors---
                 // emptyColorGradient: ---Empty Color gradient---
               ),
+              const Divider(color: Color.fromARGB(255, 186, 186, 186)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ButtonHome(
-                    icon: Image.asset('images/material.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/material.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Bahan Baku',
                     action: () =>
                         Navigator.pushNamed(context, '/row-material-stock'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                   ButtonHome(
-                    icon: Image.asset('images/product.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/product.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Produk Jadi',
                     action: () => Navigator.pushNamed(
                         context, '/finished-material-stock'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                   ButtonHome(
-                    icon: Image.asset('images/purchase.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/purchase.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Pembelian',
                     action: () => Navigator.pushNamed(context, '/purchase'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                 ],
               ),
@@ -249,22 +262,34 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ButtonHome(
-                    icon: Image.asset('images/sales.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/sales.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Penjualan',
                     action: () => Navigator.pushNamed(context, '/sales'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                   ButtonHome(
-                    icon: Image.asset('images/employee.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/employee.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Karyawan',
                     action: () => Navigator.pushNamed(context, '/employee'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                   ButtonHome(
-                    icon: Image.asset('images/delivery.png', width: 70.0),
+                    icon: Image.asset(
+                      'images/delivery.png',
+                      width: MediaQuery.of(context).size.width / 3.7,
+                      height: 70,
+                    ),
                     label: 'Pengiriman',
                     action: () => Navigator.pushNamed(context, '/delivery'),
-                    width: 100,
+                    width: MediaQuery.of(context).size.width / 3.7,
                   ),
                 ],
               ),
