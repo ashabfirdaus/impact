@@ -102,7 +102,8 @@ class _RowMaterialDetailState extends State<RowMaterialDetail> {
                             RowDetail(
                               label: 'Harga Satuan',
                               value: CurrencyFormat.convertToIdr(
-                                  double.parse(selectData['harga_satuan']), 2),
+                                  double.parse(selectData['harga_satuan'] ?? 0),
+                                  2),
                               type: 'list',
                             ),
                             RowDetail(

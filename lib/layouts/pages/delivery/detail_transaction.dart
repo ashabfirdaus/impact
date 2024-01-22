@@ -23,8 +23,8 @@ class _DetailTransactionState extends State<DetailTransaction> {
   Map selectData = {};
   bool isReceiver = false;
   Map statusDelivery = {
-    '0': {'status': 'Belum Dikirim', 'color': Colors.red},
-    '1': {'status': 'Terkirim', 'color': Colors.cyan}
+    '0': {'label': 'Dikirim', 'color': Colors.blue},
+    '1': {'label': "Selesai", 'color': Colors.green}
   };
 
   @override
@@ -95,6 +95,21 @@ class _DetailTransactionState extends State<DetailTransaction> {
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: GlobalConfig.primaryColor,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: statusDelivery[selectData['surat_jalan']
+                            ['status_kirim']]['color'],
+                      ),
+                      child: Text(
+                        statusDelivery[selectData['surat_jalan']
+                            ['status_kirim']]['label'],
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),

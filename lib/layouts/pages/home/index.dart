@@ -54,7 +54,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         setState(() {
           listData1 = [];
         });
-        NotificationBar.toastr(data['message'], 'error');
+        // NotificationBar.toastr('Data error : ${data['statusCode']}', 'error');
       }
     } catch (e) {
       NotificationBar.toastr('Internal Server Error', 'error');
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         setState(() {
           listData2 = {'Data Belum Tersedia': 0};
         });
-        NotificationBar.toastr(data['message'], 'error');
+        // NotificationBar.toastr('Data error : ${data['statusCode']}', 'error');
       }
     } catch (e) {
       NotificationBar.toastr('Internal Server Error', 'error');

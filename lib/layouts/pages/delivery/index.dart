@@ -196,12 +196,11 @@ class _DeliveryState extends State<Delivery> {
                               padding: const EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color:
-                                    arrayStatus[data['surat_jalan']['status']]
-                                        ['color'],
+                                color: arrayStatus[data['surat_jalan']
+                                    ['status_kirim']]['color'],
                               ),
                               child: Text(
-                                arrayStatus[data['surat_jalan']['status']]
+                                arrayStatus[data['surat_jalan']['status_kirim']]
                                     ['label'],
                                 style: const TextStyle(
                                   color: Colors.white,
